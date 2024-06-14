@@ -14,6 +14,9 @@ class Bio(models.Model):
 class University(models.Model):
     title = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.title
+
 # Advisor models
 class Advisor(models.Model):
     name = models.CharField(max_length=255)
@@ -25,14 +28,14 @@ class Advisor(models.Model):
 
 # Education model
 class Education(models.Model):
-    university = models.ManyToManyField(University, related_name='educations')
+    university = models.ForeignKey(University, related_name='educations', on_delete=models.DO_NOTHING, blank=True, null=True)
     major = models.CharField(max_length=100)
     start = models.DateField()
     end = models.DateField()
-    gpa = models.DecimalField(max_digits=3, decimal_places=2, null=True, blank=True)
-    gpa_base = models.DecimalField(max_digits=3, decimal_places=2, null=True, blank=True)
+    gpa = models.DecimalField(max_digits=4, decimal_places=2, null=True, blank=True)
+    gpa_base = models.DecimalField(max_digits=4, decimal_places=2, null=True, blank=True)
     advisors = models.ManyToManyField(Advisor, related_name='educations')
-    thesis = models.CharField(max_length=255)
+    thesis = models.CharField(max_length=255, blank=True)
     DEGREE_CHOICES = [
         ('DIP', 'Diploma'),
         ('BD', 'B.Sc.'),
@@ -44,7 +47,7 @@ class Education(models.Model):
     
 
     def __str__(self):
-        return f"{self.major} at {self.university}"
+        return f"{self.major} at {self.university.title}"
 
 # Publication model
 class Publication(models.Model):
