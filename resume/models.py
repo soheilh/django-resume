@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import RegexValidator
 
 # Bio models
 class Bio(models.Model):
@@ -61,12 +62,34 @@ class Education(models.Model):
     def __str__(self):
         return f"{self.major} at {self.university.title}"
 
+# Authors models
+class Author(models.Model):
+    name = models.CharField(max_length=255)
+    email = models.EmailField(blank=True)
+    website = models.URLField(blank=True)
+
+    def __str__(self):
+        return self.name
+
+# LinkType model
+class LinkType(models.Model):
+    name = models.CharField(max_length=100)
+    color = models.CharField(max_length=7, 
+        validators=[
+            RegexValidator(
+                regex='^#[0-9A-Fa-f]{6}$', 
+                message='Enter a valid hex color code (e.g., #FFFFFF).'
+            )
+        ],
+        help_text='Enter a valid hex color code (e.g., #FFFFFF).'
+    )
+
+
 # Publication model
 class Publication(models.Model):
     title = models.CharField(max_length=255)
-    authors = models.CharField(max_length=200)
+    authors = models.ManyToManyField(Author, related_name='publication')
     publication_date = models.DateField()
-    publication_link = models.URLField(blank=True)
     journal = models.CharField(max_length=255, blank=True)
     conference = models.CharField(max_length=255, blank=True)
 
@@ -77,6 +100,7 @@ class Publication(models.Model):
 class PublicationLink(models.Model):
     publication = models.ForeignKey(Publication, related_name='links', on_delete=models.CASCADE)
     url = models.URLField()
+    type = models.ManyToManyField(LinkType, related_name='links')
 
     def __str__(self):
         return self.url

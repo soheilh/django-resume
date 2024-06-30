@@ -5,6 +5,8 @@ from .models import *
 admin.site.register(Bio)
 admin.site.register(University)
 admin.site.register(Advisor)
+admin.site.register(Author)
+admin.site.register(LinkType)
 
 class EducationAdmin(admin.ModelAdmin):
     list_display = ('degree', 'major', 'university', 'start', 'end',)
@@ -13,5 +15,11 @@ class EducationAdmin(admin.ModelAdmin):
     date_hierarchy = 'start'
 
 admin.site.register(Education, EducationAdmin)
-admin.site.register(Publication)
-admin.site.register(PublicationLink)
+
+class PublicationLinkAdmin(admin.StackedInline):
+    model = PublicationLink
+
+class PublicationAdmin(admin.ModelAdmin):
+    inlines = [ PublicationLinkAdmin ]
+
+admin.site.register(Publication, PublicationAdmin)
