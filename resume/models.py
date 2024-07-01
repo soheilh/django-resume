@@ -105,10 +105,10 @@ class PublicationLink(models.Model):
         return self.url
 
 # Achievements models
-class Achievements(models.Model):
+class Achievement(models.Model):
     title = models.CharField(max_length=255)
-    start_date = models.DateField()
-    end_date = models.DateField(blank=True, null=True)
+    start_date = models.IntegerField()
+    end_date = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return self.title

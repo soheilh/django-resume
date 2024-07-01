@@ -22,6 +22,6 @@ class PublicationLinkAdmin(admin.StackedInline):
 class PublicationAdmin(admin.ModelAdmin):
     inlines = [ PublicationLinkAdmin ]
 
-@admin.register(Achievements)
-class AchievementsAdmin(admin.ModelAdmin):
+@admin.register(Achievement)
+class AchievementAdmin(admin.ModelAdmin):
     list_display = ('title', 'start_date', 'end_date', 'date_display')
