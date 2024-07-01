@@ -84,7 +84,6 @@ class LinkType(models.Model):
         help_text='Enter a valid hex color code (e.g., #FFFFFF).'
     )
 
-
 # Publication model
 class Publication(models.Model):
     title = models.CharField(max_length=255)
@@ -104,3 +103,18 @@ class PublicationLink(models.Model):
 
     def __str__(self):
         return self.url
+
+# Achievements models
+class Achievements(models.Model):
+    title = models.CharField(max_length=255)
+    start_date = models.DateField()
+    end_date = models.DateField(blank=True, null=True)
+
+    def __str__(self):
+        return self.title
+
+    @property
+    def date_display(self):
+        if self.end_date:
+            return f"{self.start_date} - {self.end_date}"
+        return str(self.start_date)
