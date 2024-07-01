@@ -8,18 +8,16 @@ admin.site.register(Advisor)
 admin.site.register(Author)
 admin.site.register(LinkType)
 
+@admin.register(Education)
 class EducationAdmin(admin.ModelAdmin):
     list_display = ('degree', 'major', 'university', 'start', 'end',)
     list_filter = ('degree', 'start', 'end',)
     search_fields = ('major', 'university_title', 'thesis',)
     date_hierarchy = 'start'
 
-admin.site.register(Education, EducationAdmin)
-
 class PublicationLinkAdmin(admin.StackedInline):
     model = PublicationLink
 
+@admin.register(Publication)
 class PublicationAdmin(admin.ModelAdmin):
     inlines = [ PublicationLinkAdmin ]
-
-admin.site.register(Publication, PublicationAdmin)
