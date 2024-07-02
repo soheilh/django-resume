@@ -7,6 +7,7 @@ from ckeditor.fields import RichTextField
 # Bio models
 class Bio(models.Model):
     text = RichTextField()
+    is_active = models.BooleanField(default=False)
 
     def __str__(self):
         return self.get_bio_snippet()
@@ -134,6 +135,12 @@ class Experience(models.Model):
             return self.end_date.year - self.start_date.year
         else:
             return None
+
+    @property
+    def date_display(self):
+        if self.end_date:
+            return f"{self.start_date.year} - {self.end_date.year}"
+        return str(self.start_date.year)
 
 # Achievement model
 class Achievement(models.Model):
