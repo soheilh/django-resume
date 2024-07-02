@@ -24,4 +24,4 @@ class PublicationAdmin(admin.ModelAdmin):
 
 @admin.register(Achievement)
 class AchievementAdmin(admin.ModelAdmin):
-    list_display = ('title', 'start_date', 'end_date', 'date_display')
+    list_display = ('get_title_snippet', 'start_date', 'end_date', 'date_display')

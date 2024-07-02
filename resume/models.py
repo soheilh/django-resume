@@ -1,15 +1,18 @@
 from django.db import models
 from django.core.validators import RegexValidator
+from django.utils.html import strip_tags
+import html
+from ckeditor.fields import RichTextField
 
 # Bio models
 class Bio(models.Model):
-    text = models.TextField()
+    text = RichTextField()
 
     def __str__(self):
         return self.get_bio_snippet()
     
     def get_bio_snippet(self):
-        return (self.text[:30] + '...') if len(self.text)>30 else self.text
+        return (html.unescape(strip_tags(self.text))[:50] + '...') if len(self.text)>50 else html.unescape(strip_tags(self.text))
 
 # University models
 class University(models.Model):
@@ -106,12 +109,15 @@ class PublicationLink(models.Model):
 
 # Achievements models
 class Achievement(models.Model):
-    title = models.CharField(max_length=255)
+    title = RichTextField()
     start_date = models.IntegerField()
     end_date = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return self.title
+        return self.get_title_snippet()
+
+    def get_title_snippet(self):
+        return html.unescape(strip_tags(self.title))
 
     @property
     def date_display(self):
