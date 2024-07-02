@@ -7,6 +7,7 @@ admin.site.register(University)
 admin.site.register(Advisor)
 admin.site.register(Author)
 admin.site.register(LinkType)
+admin.site.register(Institution)
 
 @admin.register(Education)
 class EducationAdmin(admin.ModelAdmin):
@@ -25,3 +26,12 @@ class PublicationAdmin(admin.ModelAdmin):
 @admin.register(Achievement)
 class AchievementAdmin(admin.ModelAdmin):
     list_display = ('get_title_snippet', 'start_date', 'end_date', 'date_display')
+
+# class InstitutionInline(admin.StackedInline):
+#     model = Institution
+#     extra = 1
+
+@admin.register(Experience)
+class ExperienceAdmin(admin.ModelAdmin):
+    list_display = ('title', 'research', 'start_date', 'end_date', 'duration')
+    # inlines = [ InstitutionInline ]

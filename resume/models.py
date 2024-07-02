@@ -107,7 +107,35 @@ class PublicationLink(models.Model):
     def __str__(self):
         return self.url
 
-# Achievements models
+# Institution model
+class Institution(models.Model):
+    name = models.CharField(max_length=200)
+    city = models.CharField(max_length=100)
+    country = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+# Experience model
+class Experience(models.Model):
+    title = models.CharField(max_length=255)
+    institution = models.ManyToManyField(Institution, related_name='experiences')
+    supervisors = models.ManyToManyField(Advisor, related_name='experiences', blank=True)
+    research = RichTextField(blank=True, null=True)
+    start_date = models.DateField()
+    end_date = models.DateField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.position} at {self.institution.name}"
+
+    @property
+    def duration(self):
+        if self.end_date:
+            return self.end_date.year - self.start_date.year
+        else:
+            return None
+
+# Achievement model
 class Achievement(models.Model):
     title = RichTextField()
     start_date = models.IntegerField()
