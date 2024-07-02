@@ -27,11 +27,6 @@ class PublicationAdmin(admin.ModelAdmin):
 class AchievementAdmin(admin.ModelAdmin):
     list_display = ('get_title_snippet', 'start_date', 'end_date', 'date_display')
 
-# class InstitutionInline(admin.StackedInline):
-#     model = Institution
-#     extra = 1
-
 @admin.register(Experience)
 class ExperienceAdmin(admin.ModelAdmin):
     list_display = ('title', 'research', 'start_date', 'end_date', 'duration')
-    # inlines = [ InstitutionInline ]
