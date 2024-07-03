@@ -16,7 +16,7 @@ class EducationAdmin(admin.ModelAdmin):
     search_fields = ('major', 'university_title', 'thesis',)
     date_hierarchy = 'start'
 
-class PublicationLinkAdmin(admin.StackedInline):
+class PublicationLinkAdmin(admin.TabularInline):
     model = PublicationLink
 
 @admin.register(Publication)
