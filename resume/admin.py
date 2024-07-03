@@ -30,3 +30,15 @@ class AchievementAdmin(admin.ModelAdmin):
 @admin.register(Experience)
 class ExperienceAdmin(admin.ModelAdmin):
     list_display = ('title', 'research', 'start_date', 'end_date', 'duration')
+
+class SkillInline(admin.TabularInline):
+    model = Skill
+
+@admin.register(SkillCategory)
+class SkillCategoryAdmin(admin.ModelAdmin):
+    inlines = [ SkillInline ]
+    list_display = ('name', 'skill_to_str')
+
+    def skill_to_str(self, obj):
+        return [skill for skill in obj.skills.all()]
+    skill_to_str.short_description = 'skills'

@@ -162,3 +162,18 @@ class Achievement(models.Model):
         if self.end_date:
             return f"{self.start_date} - {self.end_date}"
         return str(self.start_date)
+
+# SkillCategory model
+class SkillCategory(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+# Skill model
+class Skill(models.Model):
+    name = models.CharField(max_length=100)
+    category = models.ForeignKey(SkillCategory, related_name='skills', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
