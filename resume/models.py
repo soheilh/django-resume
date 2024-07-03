@@ -21,6 +21,9 @@ class University(models.Model):
 
     def __str__(self):
         return self.title
+    
+    class Meta:
+        verbose_name_plural = "Universities"
 
 # Advisor models
 class Advisor(models.Model):
