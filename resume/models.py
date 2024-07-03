@@ -130,7 +130,7 @@ class Experience(models.Model):
     end_date = models.DateField(blank=True, null=True)
 
     def __str__(self):
-        return f"{self.title} at {self.institution.name}"
+        return f"{self.title} at {self.institutions.name}"
 
     @property
     def duration(self):
