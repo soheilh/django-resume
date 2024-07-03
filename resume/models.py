@@ -123,7 +123,7 @@ class Institution(models.Model):
 # Experience model
 class Experience(models.Model):
     title = models.CharField(max_length=255)
-    institution = models.ManyToManyField(Institution, related_name='experiences', blank=True)
+    institutions = models.ManyToManyField(Institution, related_name='experiences', blank=True)
     supervisors = models.ManyToManyField(Advisor, related_name='experiences', blank=True)
     research = RichTextField(blank=True, null=True)
     start_date = models.DateField()
