@@ -167,3 +167,17 @@ class Skill(models.Model):
 
     def __str__(self):
         return self.name
+
+# Activity model
+class Activity(models.Model):
+    title = models.CharField(max_length=100)
+    institution = models.ForeignKey(Institution, related_name='activities', on_delete=models.DO_NOTHING, blank=True, null=True)
+    description = RichTextField()
+    start_date = models.DateField()
+    end_date = models.DateField()
+
+    class Meta:
+        verbose_name_plural = "Activities"
+
+    def __str__(self):
+        return self.title

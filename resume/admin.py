@@ -7,6 +7,7 @@ admin.site.register(Institution)
 admin.site.register(Advisor)
 admin.site.register(Author)
 admin.site.register(LinkType)
+admin.site.register(Activity)
 
 @admin.register(Education)
 class EducationAdmin(admin.ModelAdmin):
