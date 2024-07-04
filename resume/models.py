@@ -184,3 +184,9 @@ class Activity(models.Model):
 
     def __str__(self):
         return self.title
+    
+    @property
+    def date_display(self):
+        if self.end_date:
+            return f"{self.start_date} - {self.end_date}"
+        return str(self.start_date)
