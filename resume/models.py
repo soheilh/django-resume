@@ -15,15 +15,14 @@ class Bio(models.Model):
     def get_bio_snippet(self):
         return (html.unescape(strip_tags(self.text))[:50] + '...') if len(self.text)>50 else html.unescape(strip_tags(self.text))
 
-# University models
-class University(models.Model):
-    title = models.CharField(max_length=100)
+# Institution model
+class Institution(models.Model):
+    name = models.CharField(max_length=200)
+    city = models.CharField(max_length=100)
+    country = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.title
-    
-    class Meta:
-        verbose_name_plural = "Universities"
+        return self.name
 
 # Advisor models
 class Advisor(models.Model):
@@ -36,7 +35,7 @@ class Advisor(models.Model):
 
 # Education model
 class Education(models.Model):
-    university = models.ForeignKey(University, related_name='educations', on_delete=models.DO_NOTHING, blank=True, null=True)
+    institution = models.ForeignKey(Institution, related_name='educations', on_delete=models.DO_NOTHING, blank=True, null=True)
     major = models.CharField(max_length=100)
     start = models.DateField()
     end = models.DateField()
@@ -67,7 +66,7 @@ class Education(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.major} at {self.university.title}"
+        return f"{self.major} at {self.institution.name}"
 
 # Authors models
 class Author(models.Model):
@@ -110,15 +109,6 @@ class PublicationLink(models.Model):
 
     def __str__(self):
         return self.url
-
-# Institution model
-class Institution(models.Model):
-    name = models.CharField(max_length=200)
-    city = models.CharField(max_length=100)
-    country = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.name
 
 # Experience model
 class Experience(models.Model):

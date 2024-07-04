@@ -3,17 +3,16 @@ from .models import *
 
 # Register your models here.
 admin.site.register(Bio)
-admin.site.register(University)
+admin.site.register(Institution)
 admin.site.register(Advisor)
 admin.site.register(Author)
 admin.site.register(LinkType)
-admin.site.register(Institution)
 
 @admin.register(Education)
 class EducationAdmin(admin.ModelAdmin):
-    list_display = ('degree', 'major', 'university', 'start', 'end',)
+    list_display = ('degree', 'major', 'institution', 'start', 'end',)
     list_filter = ('degree', 'start', 'end',)
-    search_fields = ('major', 'university_title', 'thesis',)
+    search_fields = ('major', 'institution_name', 'thesis',)
     date_hierarchy = 'start'
 
 class PublicationLinkAdmin(admin.TabularInline):
