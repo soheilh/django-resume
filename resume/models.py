@@ -157,6 +157,9 @@ class Achievement(models.Model):
 class SkillCategory(models.Model):
     name = models.CharField(max_length=100)
 
+    class Meta:
+        verbose_name_plural = 'Skill Categories'
+
     def __str__(self):
         return self.name
 
