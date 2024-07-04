@@ -37,8 +37,8 @@ class Advisor(models.Model):
 class Education(models.Model):
     institution = models.ForeignKey(Institution, related_name='educations', on_delete=models.DO_NOTHING, blank=True, null=True)
     major = models.CharField(max_length=100)
-    start = models.DateField()
-    end = models.DateField()
+    start_date = models.DateField()
+    end_date = models.DateField()
     gpa = models.DecimalField(max_digits=4, decimal_places=2, null=True, blank=True)
     gpa_base = models.DecimalField(max_digits=4, decimal_places=2, null=True, blank=True)
     advisors = models.ManyToManyField(Advisor, related_name='educations', blank=True)

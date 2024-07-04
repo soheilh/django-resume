@@ -11,10 +11,10 @@ admin.site.register(Activity)
 
 @admin.register(Education)
 class EducationAdmin(admin.ModelAdmin):
-    list_display = ('degree', 'major', 'institution', 'start', 'end',)
-    list_filter = ('degree', 'start', 'end',)
+    list_display = ('degree', 'major', 'institution', 'start_date', 'end_date',)
+    list_filter = ('degree', 'start_date', 'end_date',)
     search_fields = ('major', 'institution_name', 'thesis',)
-    date_hierarchy = 'start'
+    date_hierarchy = 'start_date'
 
 class PublicationLinkAdmin(admin.TabularInline):
     model = PublicationLink
