@@ -70,12 +70,13 @@ class Education(models.Model):
 
 # Authors models
 class Author(models.Model):
-    name = models.CharField(max_length=255)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
     email = models.EmailField(blank=True)
     website = models.URLField(blank=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.first_name} {self.last_name}"
 
 # LinkType model
 class LinkType(models.Model):
