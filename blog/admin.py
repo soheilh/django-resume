@@ -23,3 +23,18 @@ class CategoryAdmin(admin.ModelAdmin):
 	search_fields = ('name', )
 	prepopulated_fields = {'slug':('name',)}
 
+# Register Comment Model
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+	list_display = ('post', 'parent', 'depth', 'status', 'created',)
+	list_filter = ('status', 'parent', 'depth',)
+	search_fields = ('name', 'body',)
+	readonly_fields = ('depth',)
+
+	def save_model(self, request, obj, form, change):
+		parent = obj.parent
+		if parent:
+			obj.depth = parent.depth + 1
+		else:
+			obj.depth = 0  # If no parent, set depth to 0 (top-level comment)
+		super().save_model(request, obj, form, change)

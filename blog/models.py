@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from ckeditor.fields import RichTextField
+from django.core.exceptions import ValidationError
 
 # Model for Category
 class Category(models.Model):
@@ -42,3 +43,30 @@ class Post(models.Model):
     class Meta:
         ordering = ['-publish']
 
+# Model for Comment
+class Comment(models.Model):
+    # user/email = 
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, related_name="replies", null=True, blank=True)
+    depth = models.PositiveIntegerField(default=0)
+    body = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    COMMENT_STATUS = (
+        ('w', 'Waiting'),
+        ('a', 'Accepted'),
+        ('r', 'Rejected'),
+    )
+    status = models.CharField(max_length=1, choices=COMMENT_STATUS, default='a')
+
+    def validate_depth(self):
+        if self.depth is not None and self.depth >= 3:
+            raise ValidationError("Maximum depth of comments reached.")
+
+    def __str__(self):
+        return self.body[0:50]
+    
+    # Override the save method to perform validation before saving
+    def save(self, *args, **kwargs):
+        self.validate_depth()
+        super().save(*args, **kwargs)
