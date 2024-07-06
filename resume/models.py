@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django.core.validators import RegexValidator
 from django.utils.html import strip_tags
 import html
@@ -78,35 +80,59 @@ class Author(models.Model):
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
-# LinkType model
-class LinkType(models.Model):
-    name = models.CharField(max_length=100)
-    color = models.CharField(max_length=7, 
-        validators=[
-            RegexValidator(
-                regex='^#[0-9A-Fa-f]{6}$', 
-                message='Enter a valid hex color code (e.g., #FFFFFF).'
-            )
-        ],
-        help_text='Enter a valid hex color code (e.g., #FFFFFF).'
-    )
-
-# Publication model
-class Publication(models.Model):
+# Journal Publication model
+class JournalPublication(models.Model):
     title = models.CharField(max_length=255)
-    authors = models.ManyToManyField(Author, related_name='publication')
+    authors = models.ManyToManyField(Author, related_name='journal_publications')
     publication_date = models.DateField()
-    journal = models.CharField(max_length=255, blank=True)
-    conference = models.CharField(max_length=255, blank=True)
+    journal_name = models.CharField(max_length=255)
+    volume = models.CharField(max_length=50, blank=True, null=True)
+    issue = models.CharField(max_length=50, blank=True, null=True)
+    doi = models.CharField(max_length=100, blank=True, null=True)
+    url = models.URLField(blank=True, null=True)
+    publisher = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return self.title
 
-# PublicationLink model
-class PublicationLink(models.Model):
-    publication = models.ForeignKey(Publication, related_name='links', on_delete=models.CASCADE)
-    url = models.URLField()
+    class Meta:
+        ordering = ['-publication_date']
+
+# Conference Publication model
+class ConferencePublication(models.Model):
+    title = models.CharField(max_length=255)
+    authors = models.ManyToManyField(Author, related_name='conference_publications')
+    publication_date = models.DateField()
+    conference_name = models.CharField(max_length=255)
+    presentation_date = models.DateField(blank=True, null=True)
+    conference_location = models.CharField(max_length=255, blank=True, null=True)
+    url = models.URLField(blank=True, null=True)
+    publisher = models.CharField(max_length=255, blank=True, null=True)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ['-publication_date']
+
+# LinkType model
+class LinkType(models.Model):
+    name = models.CharField(max_length=100)
+    color = models.CharField(max_length=7, 
+        validators=[RegexValidator(regex='^#[0-9A-Fa-f]{6}$', message='Enter a valid hex color code (e.g., #FFFFFF).')],
+        help_text='Enter a valid hex color code (e.g., #FFFFFF).'
+    )
+
+    def __str__(self):
+        return self.name
+
+# Link model
+class Link(models.Model):
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    publication = GenericForeignKey('content_type', 'object_id')
     type = models.ManyToManyField(LinkType, related_name='links')
+    url = models.URLField()
 
     def __str__(self):
         return self.url

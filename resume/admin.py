@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.contenttypes.admin import GenericTabularInline
 from .models import *
 
 # Register your models here.
@@ -16,12 +17,17 @@ class EducationAdmin(admin.ModelAdmin):
     search_fields = ('major', 'institution_name', 'thesis',)
     date_hierarchy = 'start_date'
 
-class PublicationLinkAdmin(admin.TabularInline):
-    model = PublicationLink
+class LinkAdmin(GenericTabularInline):
+    model = Link
+    extra = 1
 
-@admin.register(Publication)
-class PublicationAdmin(admin.ModelAdmin):
-    inlines = [ PublicationLinkAdmin ]
+@admin.register(JournalPublication)
+class JournalPublicationAdmin(admin.ModelAdmin):
+    inlines = [ LinkAdmin ]
+
+@admin.register(ConferencePublication)
+class ConferencePublicationAdmin(admin.ModelAdmin):
+    inlines = [ LinkAdmin ]
 
 @admin.register(Achievement)
 class AchievementAdmin(admin.ModelAdmin):
