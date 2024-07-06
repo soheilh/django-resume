@@ -45,7 +45,7 @@ class Post(models.Model):
 
 # Model for Comment
 class Comment(models.Model):
-    # user/email = 
+    email = models.EmailField(max_length=255)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
     parent = models.ForeignKey('self', on_delete=models.CASCADE, related_name="replies", null=True, blank=True)
     depth = models.PositiveIntegerField(default=0)

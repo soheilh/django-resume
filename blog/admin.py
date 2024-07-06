@@ -26,7 +26,7 @@ class CategoryAdmin(admin.ModelAdmin):
 # Register Comment Model
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-	list_display = ('post', 'parent', 'depth', 'status', 'created',)
+	list_display = ('email', 'post', 'parent', 'depth', 'status', 'created',)
 	list_filter = ('status', 'parent', 'depth',)
 	search_fields = ('name', 'body',)
 	readonly_fields = ('depth',)
