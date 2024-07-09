@@ -35,10 +35,12 @@ class Post(models.Model):
         ('d', 'Deleted'),
     ]
     status = models.CharField(max_length=2, choices=STATUS_CHOICES, default='p')
+    visible = models.BooleanField(default=True)
+    visit_count = models.IntegerField(default=0)
     content = RichTextField(default='')
 
     def __str__(self):
-        return self.title
+        return f"{ self.title} | { self.catagories} | { self.status}"
 
     class Meta:
         ordering = ['-publish']
