@@ -15,6 +15,13 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+# Model for Tag
+class Tag(models.Model):
+    name = models.CharField(max_length=100, null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
 # Model for Post
 class Post(models.Model):
     title = models.CharField(max_length=200)
@@ -24,7 +31,8 @@ class Post(models.Model):
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    category = models.ManyToManyField(to=Category, related_name="posts")
+    categories = models.ManyToManyField(Category, related_name='posts')
+    tags = models.ManyToManyField(Tag, related_name='posts')
     thumb = models.ImageField(upload_to ='thumbs', default='thumbs/default.jpg')
     image = models.ImageField(upload_to ='images', default='images/default.jpg')
     STATUS_CHOICES = [
@@ -40,7 +48,7 @@ class Post(models.Model):
     content = RichTextField(default='')
 
     def __str__(self):
-        return f"{ self.title} | { self.catagories} | { self.status}"
+        return f"{ self.title} | { self.categories} | { self.status}"
 
     class Meta:
         ordering = ['-publish']
