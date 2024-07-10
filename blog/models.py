@@ -49,7 +49,7 @@ class Post(models.Model):
     status = models.CharField(max_length=2, choices=STATUS_CHOICES, default='p')
     comment_status = models.CharField(max_length=1, choices=COMMENT_STATUS, default='o')
     visible = models.BooleanField(default=True)
-    visit_count = models.IntegerField(default=0)
+    visit_count = models.PositiveIntegerField(default=0)
     content = RichTextField(default='')
 
     def __str__(self):
@@ -57,6 +57,10 @@ class Post(models.Model):
 
     class Meta:
         ordering = ['-publish']
+
+    def viewed(self):
+        self.visit_count += 1
+        self.save(update_fields=['visit_count'])
 
 # Model for Comment
 class Comment(models.Model):
