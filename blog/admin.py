@@ -4,7 +4,7 @@ from .models import *
 # Register Post Model
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-	list_display = ('title', 'slug', 'status', 'category_to_str', 'tag_to_str', 'visit_count',)
+	list_display = ('title', 'slug', 'status', 'category_to_str', 'tag_to_str', 'visit_count', 'comment_status',)
 	list_filter = ('publish', 'status',)
 	search_fields = ('title', 'description', 'content',)
 	prepopulated_fields = {'slug': ('title',)}

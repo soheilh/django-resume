@@ -42,7 +42,12 @@ class Post(models.Model):
         ('pa', 'Pending Approval'),
         ('d', 'Deleted'),
     ]
+    COMMENT_STATUS = [
+        ('o', 'Open'),
+        ('c', 'Close'),
+    ]
     status = models.CharField(max_length=2, choices=STATUS_CHOICES, default='p')
+    comment_status = models.CharField(max_length=1, choices=COMMENT_STATUS, default='o')
     visible = models.BooleanField(default=True)
     visit_count = models.IntegerField(default=0)
     content = RichTextField(default='')
@@ -78,5 +83,8 @@ class Comment(models.Model):
     
     # Override the save method to perform validation before saving
     def save(self, *args, **kwargs):
+        # Check if the post's comment status is closed
+        if self.post.comment_status == 'c':
+            raise ValidationError("Comments are closed for this post.")
         self.validate_depth()
         super().save(*args, **kwargs)
