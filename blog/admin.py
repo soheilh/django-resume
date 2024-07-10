@@ -4,12 +4,13 @@ from .models import *
 # Register Post Model
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-	list_display = ('title', 'slug', 'status', 'category_to_str', 'tag_to_str',)
+	list_display = ('title', 'slug', 'status', 'category_to_str', 'tag_to_str', 'visit_count',)
 	list_filter = ('publish', 'status',)
 	search_fields = ('title', 'description', 'content',)
 	prepopulated_fields = {'slug': ('title',)}
 	ordering = ('-status', '-publish',)
 	# exclude = ('author', )
+	readonly_fields = ('visit_count',)
 
 	def category_to_str(self, obj):
 		return [category for category in obj.categories.all()]
